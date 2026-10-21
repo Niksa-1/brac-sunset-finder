@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Brač Sunset Finder</title>
+<meta name="description" content="When and where the sun sets on the island of Brač, Croatia.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,400;0,600;1,400&family=Alegreya+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="src/style.css">
+</head>
+<body>
+<div class="app">
+  <div class="mapwrap" id="mapwrap">
+    <svg id="map" role="img" aria-labelledby="map-desc" preserveAspectRatio="xMidYMid meet">
+      <desc id="map-desc">Map of Brač showing sunset viewpoints and the direction of the setting sun.</desc>
+      <defs>
+        <radialGradient id="sky-glow" gradientUnits="userSpaceOnUse" r="520">
+          <stop offset="0" stop-color="#ffb35c" stop-opacity=".55"/>
+          <stop offset=".35" stop-color="#f07a4a" stop-opacity=".22"/>
+          <stop offset="1" stop-color="#f07a4a" stop-opacity="0"/>
+        </radialGradient>
+        <linearGradient id="glint" gradientUnits="userSpaceOnUse">
+          <stop offset="0" stop-color="#ffd38a" stop-opacity="0"/>
+          <stop offset=".45" stop-color="#ffc370" stop-opacity=".35"/>
+          <stop offset="1" stop-color="#ffe2a8" stop-opacity=".95"/>
+        </linearGradient>
+        <radialGradient id="sun-halo">
+          <stop offset="0" stop-color="#fff1c9" stop-opacity=".9"/>
+          <stop offset=".4" stop-color="#ffb35c" stop-opacity=".45"/>
+          <stop offset="1" stop-color="#ff8a4a" stop-opacity="0"/>
+        </radialGradient>
+        <filter id="shallows" x="-10%" y="-10%" width="120%" height="120%">
+          <feGaussianBlur stdDeviation="6"/>
+        </filter>
+      </defs>
+      <rect id="sea" x="-2000" y="-2000" width="5000" height="5000"/>
+      <circle id="glow" r="520" fill="url(#sky-glow)"/>
+      <g id="neighbours"></g>
+      <path id="shallow-ring" filter="url(#shallows)"/>
+      <path id="island"/>
+      <g id="labels"></g>
+      <polygon id="glint-path" fill="url(#glint)"/>
+      <g id="sun">
+        <circle id="sun-halo-c" r="46" fill="url(#sun-halo)"/>
+        <circle id="sun-disk" r="11"/>
+      </g>
+      <g id="spots"></g>
+    </svg>
+    <div class="compass" id="compass" aria-hidden="true"></div>
+  </div>
+
+  <main class="panel">
+    <header class="head">
+      <h1>Sunset on Brač</h1>
+      <p class="lede">Pick a day and a place to see when the sun goes down, and where to look.</p>
+      <div class="dateline">
+        <label for="date">Date</label>
+        <input type="date" id="date">
+        <button class="btn" id="today" type="button">Today</button>
+      </div>
+    </header>
+
+    <section class="spot" id="spot" aria-live="polite"></section>
+
+    <section class="scrub">
+      <div class="scrub-head">
+        <label for="time">Watch the light</label>
+        <button class="btn play" id="play" type="button" aria-pressed="false">Play</button>
+      </div>
+      <input type="range" id="time" min="-90" max="40" step="1" value="-15">
+      <div class="ticks" id="ticks" aria-hidden="true"></div>
+      <p class="readout" id="readout"></p>
+    </section>
+
+    <section class="list">
+      <h2>All viewpoints</h2>
+      <ol id="spotlist"></ol>
+    </section>
+
+    <p class="note">Times assume a clear view of the sea horizon. Hills or islands that hide the sun early aren't checked yet.</p>
+    <p class="source">Sun positions: Astronomy Engine. Coastline: OpenStreetMap contributors (ODbL), via geo-maps.</p>
+  </main>
+</div>
+
+<script src="vendor/astronomy.browser.min.js"></script>
+<script src="src/sun.js"></script>
+<script src="src/geo.js"></script>
+<script src="src/viewpoints.js"></script>
+<script src="src/app.js"></script>
+</body>
+</html>
